@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Main quadrotor link -->
+  <xacro:macro name="drone">
+    <link name="base_link">
+      <inertial>
+        <mass value="1.477" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01152" ixy="0.0" ixz="0.0" iyy="0.01152" iyz="0.0" izz="0.0218" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://drone_description/meshes/drone.stl"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0.04" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.001" radius="0.301958"/>
+        </geometry>
+      </collision>
+    </link>
+
+ <link name="laser">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.001" />
+      <inertia
+        ixx="0.01"
+        ixy="0.01"
+        ixz="0.01"
+        iyy="0.01"
+        iyz="0.01"
+        izz="0.01" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://drone_description/meshes/rplidar.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+          <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+    </link>
+
+
+<joint name="laser_base" type="fixed">
+      <parent link="base_link"/>
+      <child link="laser"/>
+      <origin xyz="-0.01 0.01 0.08"/>
+    </joint>
+
+ <link name="mini_lidar">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="1.57 0 0" />
+      <mass
+        value="0.001" />
+      <inertia
+        ixx="0.01"
+        ixy="0.01"
+        ixz="0.01"
+        iyy="0.01"
+        iyz="0.01"
+        izz="0.01" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://drone_description/meshes/TFMini.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="1.57 0 0" />
+      <geometry>
+          <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+    </link>
+
+
+<joint name="mini_lidar_to_base" type="fixed">
+      <parent link="base_link"/>
+      <child link="mini_lidar"/>
+      <origin xyz="0 0 .016" rpy="0 1.57 0"/>
+    </joint>
+
+  <gazebo reference="base_link">
+ <material>Gazebo/Yellow</material>
+</gazebo>
+
+  <gazebo reference="mini_lidar">
+ <material>Gazebo/Blue</material>
+</gazebo>
+
+  <gazebo reference="laser">
+ <material>Gazebo/LightOn</material>
+</gazebo>
+
+
+  </xacro:macro>
+</robot>
